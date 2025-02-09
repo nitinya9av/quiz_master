@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/register.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1 text-center mt-5">Register for Quiz Master</h1>
+    <div class="container shadow col-10 col-md-6 p-4 m-4">
+        <div class="row">
+            <div class="">
+                <form action="{{ url_for('register') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name*</label>
+                        <input type="text" class="form-control" id="name" name="name" required placeholder="Full Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username*</label>
+                        <input type="email" class="form-control" id="username" name="username" required placeholder="Email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password*</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password*</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" name="dob">
+                    </div>
+                    <div class="mb-3">
+                        <label for="qualification" class="form-label">Qualification</label>
+                        <input type="text" class="form-control" id="qualification" name="qualification">
+                    </div>
+                    <button type="submit" class="btn button">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p class="text-body-secondary text-center">
+            Already have an account? <a href="{{ url_for('login')}}" class="text-reset">Login</a>
+        </p>
+    </div>
+{% endblock %}

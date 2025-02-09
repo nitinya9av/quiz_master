@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1 text-center">Login to Quiz Master</h1>
+    <div class="container shadow col-10 col-md-6 p-4 m-5">
+        <div class="row">
+            <div class="">
+                <form action="{{ url_for('login') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username*</label>
+                        <input type="email" class="form-control" id="username" name="username" required placeholder="Email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password*</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn button">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p class="text-body-secondary text-center">
+            New to Quiz Master? <a href="{{ url_for('register') }}" class="text-reset">Create an account</a>
+        </p>
+    </div>
+{% endblock %}

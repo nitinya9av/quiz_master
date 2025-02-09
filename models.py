@@ -1,6 +1,7 @@
 from app import app
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy(app)
 
@@ -63,3 +64,10 @@ class Score(db.Model):
 
 with app.app_context():
     db.create_all()
+    # If admin exists, else create admin
+    admin = User.query.filter_by(is_admin=True).first()
+    if not admin:
+        password_hash = generate_password_hash('admin')
+        admin = User(username='admin@quizmaster.com', passhash=password_hash, full_name='Quiz Master', is_admin=True)
+        db.session.add(admin)
+        db.session.commit()
