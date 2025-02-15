@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Quiz Details - {{ quiz.id }}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/newSubChap.css') }}">
+{% endblock %}
+
+{% block body %}
+{% include 'navbar.html' %}
+<h1 class="h1 text-center mt-5">Quiz{{quiz.id}} Details</h1>
+<div class="col-10 col-md-6 mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <!-- <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/admin">Subjects</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                            {{ quiz.chapter.subject.name }}
+                    </li>
+                    <li class="breadcrumb-item">
+                            {{ quiz.chapter.name }}
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Quiz {{ quiz.id }}</li>
+                </ol>
+            </nav> -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <dl class="row">
+                        <dt class="col-sm-5">Subject:</dt>
+                        <dd class="col-sm-7">{{ quiz.chapter.subject.name }}</dd>
+
+                        <dt class="col-sm-5">Chapter:</dt>
+                        <dd class="col-sm-7">{{ quiz.chapter.name }}</dd>
+
+
+                        <dt class="col-sm-5">Quiz Date:</dt>
+                        <dd class="col-sm-7">{{ quiz.date_of_quiz.strftime('%B %d, %Y') }}</dd>
+
+                        <dt class="col-sm-5">Duration:</dt>
+                        <dd class="col-sm-7">{{ quiz.time_duration // 60 }} minutes</dd>
+
+                        <dt class="col-sm-5">Description:</dt>
+                        <dd class="col-sm-7">{{ quiz.remarks }}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h5 class="mb-3">Questions ({{ quiz.questions|length }})</h5>
+                <div class="list-group">
+                    {% for question in quiz.questions %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Question #{{ question.id }}</h6>
+                                <p class="mb-1">{{ question.question_statement }}</p>
+                            </div>
+                            <div class="btn-group">
+                                <a href="/quiz/{{ quiz.id }}/question/{{ question.id }}/edit" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="/quiz/{{ quiz.id }}/question/{{ question.id }}/delete" 
+                                   class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        No questions found for this quiz
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light">
+            <a href="/quiz" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Quizzes
+            </a>
+            <div class="float-end">
+                <a href="/quiz/{{ quiz.id }}/edit" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Edit Quiz
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

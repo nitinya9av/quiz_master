@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Edit Quiz
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newSubChap.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1 text-center mt-5">Edit Quiz{{quiz.id}} Details</h1>
+    <div class="container shadow col-10 col-md-6 p-4 m-5">
+        <div class="row">
+            <form method="post">
+                <div class="form-group">
+                    <div class="mb-3">
+                        <label for="chapter_id">Chapter ID</label>
+                        <input type="text" class="form-control" id="chapter_id" name="chapter_id" value="{{quiz.chapter_id}}" required readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date">Quiz Date</label>
+                        <input type="date" class="form-control" id="date" name="date" value="{{quiz.date_of_quiz.strftime('%Y-%m-%d')}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="duration">Quiz Duration</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="duration" name="duration" min="1" value="{{quiz.time_duration // 60 }}" required placeholder="Enter duration in minutes">
+                            <span class="input-group-text">minutes</span>
+                        </div>
+                        <small class="form-text text-muted">Example: 30 for 30 minutes</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" value="{{quiz.remarks}}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <a href="/quiz" class="btn btn-danger">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

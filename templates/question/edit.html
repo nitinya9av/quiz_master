@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Edit Question
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newSubChap.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1 text-center mt-5">Edit Question{{question.id}} Details</h1>
+    <div class="container shadow col-10 col-md-6 p-4 m-5">
+        <div class="row">
+            <form method="post">
+                <div class="form-group">
+                    <div class="mb-3">
+                        <label for="tquestion">Question Title</label>
+                        <input type="text" class="form-control" id="tquestion" name="tquestion" value="{{question.question_title}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="question">Question</label>
+                        <input type="text" class="form-control" id="question" name="question" value="{{question.question_statement}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="option1">Option 1</label>
+                        <input type="text" class="form-control" id="option1" name="option1" value="{{question.option1}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="option2">Option 2</label>
+                        <input type="text" class="form-control" id="option2" name="option2" value="{{question.option2}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="option3">Option 3</label>
+                        <input type="text" class="form-control" id="option3" name="option3" value="{{question.option3}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="option4">Option 4</label>
+                        <input type="text" class="form-control" id="option4" name="option4" value="{{question.option4}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="answer">Correct Option</label>
+                        <select class="form-select" id="answer" name="answer" required>
+                            <option value="1" {% if question.answer == '1' %} selected {% endif %}>Option 1</option>
+                            <option value="2" {% if question.answer == '2' %} selected {% endif %}>Option 2</option>
+                            <option value="3" {% if question.answer == '3' %} selected {% endif %}>Option 3</option>
+                            <option value="4" {% if question.answer == '4' %} selected {% endif %}>Option 4</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <a href="/quiz" class="btn btn-danger">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

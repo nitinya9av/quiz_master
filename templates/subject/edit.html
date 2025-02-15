@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Edit Subject
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newSubChap.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1 text-center mt-5">Edit Subject Details</h1>
+    <div class="container shadow col-10 col-md-6 p-4 m-5">
+        <div class="row">
+            <form method="post">
+                <div class="form-group">
+                    <div class="mb-3">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{subject.name}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" value="{{subject.description}}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <a href="/admin" class="btn btn-danger">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

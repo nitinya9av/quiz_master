@@ -1,0 +1,43 @@
+body{
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashed-border{
+    border: 1px dashed #1f1f1f;
+    border-radius: 10px;
+    padding: 50px;
+    margin-top: 100px;
+}
+
+.actionbtn{
+    border-color: #6c757d;
+}
+
+.table-card{
+    background-color: #f9fafb;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.custom-table {
+    border-radius: 10px;
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+.button{
+    font-family: 'Tomorrow', sans-serif;
+    cursor: pointer;
+    color: #1f1f1f;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    background-color: #fec43f;
+    border: 1.5px solid black;
+
+    &:hover {
+        color: #1f1f1f;
+        background-color: #f7b500;
+        border: 1.5px solid black;
+    }
+}

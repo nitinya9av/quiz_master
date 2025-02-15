@@ -11,67 +11,71 @@
     {% include 'navbar.html' %}
     <div class="container">
         <div class="row">
-            {% if subjects|length == 0 %}
+            {% if quizes|length == 0 %}
                 <div class="col-md-6 offset-md-3">
                     <div class="card dashed-border text-center">
                         <div class="card-body">
-                            <h5 class="card-title">No Subject Found</h5>
-                            <p class="card-text">Please add a new subject to get started</p>
+                            <h5 class="card-title">No Quiz Found</h5>
+                            <p class="card-text">Please add a new quiz to get started</p>
                         </div>
                     </div>
                 </div>
             {% endif %}
-            {% for subject in subjects %}
+            {% for quiz in quizes %}
                 <div class="col-md-6 mt-4">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div class="title d-flex align-items-end">
-                                    <h5 class="card-title">
-                                        {{ subject.name }}
-                                    </h5>
+                                    <a href="/quiz/{{ quiz.id }}" class="text-decoration-none" style="color: #212529;">
+                                        <h5 class="card-title">
+                                            Quiz{{quiz.id}} ({{ quiz.chapter.name }})
+                                        </h5>
+                                    </a>
                                 </div>
-                                <div class="btn-group">
-                                    <a href="/subject/{{ subject.id }}/edit" 
-                                       class="btn btn-sm btn-outline-primary actionbtn">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="/subject/{{ subject.id }}/delete" 
-                                       class="btn btn-sm btn-outline-danger actionbtn">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                <div class="d-flex align-items-center">
+                                    <div class="btn-group">
+                                        <a href="/quiz/{{ quiz.id }}/edit" 
+                                           class="btn btn-sm btn-outline-primary actionbtn">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="/quiz/{{ quiz.id }}/delete" 
+                                           class="btn btn-sm btn-outline-danger actionbtn">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                            <p class="card-text small">{{ subject.description }}</p>
+                            <p class="card-text small">{{ quiz.remarks }}</p>
                             <div class="table-card">
                                 <table class="table table-striped custom-table">
                                     <thead class="small">
                                         <tr>
-                                            <th>Chapter Name</th>
-                                            <th>No. of Questions</th>
+                                            <th>Ques. ID</th>
+                                            <th>Question Title</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% if not subject.chapters %}
+                                        {% if not quiz.questions %}
                                             <tr>
                                                 <td colspan="3" class="text-center text-muted small">
-                                                    No chapters found
+                                                    No questions found
                                                 </td>
                                             </tr>
                                         {% endif %}
-                                        {% if subject.chapters %}
-                                            {% for chapter in subject.chapters %}
+                                        {% if quiz.questions %}
+                                            {% for question in quiz.questions %}
                                                 <tr>
-                                                    <td>{{ chapter.name }}</td>
-                                                    <td>{{ chapter.questions|length }}</td>
+                                                    <td>{{ question.id }}</td>
+                                                    <td>{{ question.question_title }}</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <a href="/subject/{{ subject.id }}/chapter/{{ chapter.id }}/edit" 
+                                                            <a href="/quiz/{{ quiz.id }}/question/{{ question.id }}/edit" 
                                                                class="btn btn-sm btn-outline-primary actionbtn">
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
-                                                            <a href="/subject/{{ subject.id }}/chapter/{{ chapter.id }}/delete" 
+                                                            <a href="/quiz/{{ quiz.id }}/question/{{ question.id }}/delete" 
                                                                class="btn btn-sm btn-outline-danger actionbtn">
                                                                 <i class="fas fa-trash"></i>
                                                             </a>
@@ -84,9 +88,9 @@
                                 </table>
                             </div>
                             <div class="d-flex justify-content-end mt-3">
-                                <a href="/subject/{{ subject.id }}/chapter/add" class="btn btn-success align-item-end">
+                                <a href="/quiz/{{ quiz.id }}/question/add" class="btn btn-success align-item-end">
                                     <i class="fa fa-plus"></i> 
-                                    Chapter
+                                    Question
                                 </a>
                             </div>
                         </div>
@@ -96,9 +100,9 @@
         </div>
     </div>
     <div>
-        <a href="/subject/add" class="btn button">
+        <a href="/quiz/add" class="btn button">
             <i class="fa fa-plus"></i>
-            Subject
+            Quiz
         </a>
     </div>
 {% endblock %}

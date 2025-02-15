@@ -38,6 +38,8 @@ class Chapter(db.Model):
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chapter_id = db.Column(db.Integer, db.ForeignKey('chapter.id'), nullable=False)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=True)
+    question_title = db.Column(db.String(128), nullable=False)
     question_statement = db.Column(db.Text, nullable=False)
     option1 = db.Column(db.String(128), nullable=False)
     option2 = db.Column(db.String(128), nullable=False)
@@ -50,8 +52,10 @@ class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chapter_id = db.Column(db.Integer, db.ForeignKey('chapter.id'), nullable=False)
     date_of_quiz = db.Column(db.Date, nullable=False)
-    time_duration = db.Column(db.Time, nullable=False)
+    time_duration = db.Column(db.Integer, nullable=False)
     remarks = db.Column(db.Text, nullable=True)
+
+    questions = db.relationship('Question', backref='quizzes', lazy=True)
 
 
 class Score(db.Model):
