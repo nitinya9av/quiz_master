@@ -1,0 +1,120 @@
+{% extends 'layout.html' %}
+
+{% block title %}Attempt Quiz{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+{% endblock %}
+
+{% block body %}
+{% include 'navbar.html' %}
+<div class="container mt-4 col-md-6">
+    <div class="d-flex justify-content-between align-items-center my-4 mx-2">
+        <h4 class="mb-0">{{ quiz.chapter.subject.name }} - {{ quiz.chapter.name }}</h4>
+        <div id="timer" class="h5 mb-0 btn btn-outline-danger"></div>
+    </div>
+    
+    <form method="post" id="quizForm">
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+        <input type="hidden" name="current_question" value="{{ question_num }}">
+        <input type="hidden" name="start_time" value="{{ start_time }}">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div id="progress">
+                        Question {{ question_num }} of {{ total_questions }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div class="question-card mb-4">
+                    <div class="question-body">
+                        <p class="lead">{{ question.question_statement }}</p>
+                        
+                        <div class="options-list">
+                            {% for option in [question.option1, question.option2, question.option3, question.option4] %}
+                            {% if option %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" 
+                                       name="answer" 
+                                       id="q{{ question.id }}_opt{{ loop.index }}" 
+                                       value="{{ loop.index }}"
+                                       {% if session.quiz_data.answers.get(question.id|string) == loop.index|string %}checked{% endif %}>
+                                <label class="form-check-label" for="q{{ question.id }}_opt{{ loop.index }}">
+                                    {{ option }}
+                                </label>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer bg-white">
+                {% if question_num > 1 %}
+                <button type="submit" name="direction" value="prev" 
+                        class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                {% endif %}
+                
+                {% if question_num < total_questions %}
+                <button type="submit" name="direction" value="next" 
+                        class="btn btn-primary float-end">
+                    Save & Next <i class="fas fa-arrow-right"></i>
+                </button>
+                {% else %}
+                <button type="submit" name="direction" value="submit" 
+                        class="btn btn-success float-end">
+                    <i class="fas fa-paper-plane"></i> Submit Quiz
+                </button>
+                {% endif %}
+            </div>            
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+const quizDuration = {{ quiz.time_duration }};
+const startTime = {{ session.quiz_data.start_time }} * 1000; // Convert to ms
+const endTime = startTime + (quizDuration * 1000);
+
+function updateTimerDisplay() {
+    const now = Date.now();
+    const remaining = Math.max(0, endTime - now);
+    
+    // Convert to minutes and seconds
+    const minutes = Math.floor(remaining / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+    
+    // Pad with leading zeros
+    const display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    document.getElementById('timer').textContent = display;
+    
+    // Auto-submit when time expires
+    if (remaining <= 0) {
+        document.getElementById('quizForm').submit();
+    }
+}
+
+// Update every second
+const timerInterval = setInterval(updateTimerDisplay, 1000);
+
+// Handle tab visibility changes
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+        updateTimerDisplay();
+    }
+});
+
+// Initial update
+updateTimerDisplay();
+</script>
+{% endblock %}
+
+

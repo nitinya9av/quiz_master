@@ -47,10 +47,17 @@ Profile
                         <i class="fas fa-save"></i>
                         Save
                     </button>
-                    <a href="{{ url_for('admin') }}" class="btn btn-danger">
-                        <i class="fas fa-times"></i>
-                        Cancel
-                    </a>
+                    {% if user.is_admin %}
+                        <a href="{{ url_for('admin') }}" class="btn btn-danger">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('index') }}" class="btn btn-danger">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </a>
+                    {% endif %}
                 </form>
             </div>
         </div>

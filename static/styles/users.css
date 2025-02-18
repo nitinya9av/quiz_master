@@ -3,10 +3,6 @@ body{
     align-items: center;
 }
 
-.card {   
-    overflow: hidden;
-}
-
 @media (max-width: 768px) {
     .card {
         background-color: transparent;

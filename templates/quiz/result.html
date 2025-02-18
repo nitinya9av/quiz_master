@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Quiz Result
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+{% endblock %}
+
+{% block body %}
+    {% include 'navbar.html' %}
+    <h1 class="h1 text-center mt-5">Quiz Result</h1>
+    <div class="card col-10 col-md-6 m-5">
+        <div class="card-body mb-4">
+            <div class="col-12">
+                {% if score.total_scored == score.quiz.questions|length %}
+        <div class="alert alert-success alert-dismissible fade show m-0" role="alert">
+            Congratulations! You have scored full marks.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% else %}
+        <div class="alert alert-danger alert-dismissible fade show m-0" role="alert">
+            Oops! Need Improvement.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+                <p class="h3 text-center my-4">Quiz Submitted Successfully.</p>
+                <p class="h4 text-center">Your score is {{score.total_scored}} out of {{ score.quiz.questions|length }}</p>
+            </div>
+        </div>
+        <div class="card-footer bg-white ">
+            <div class="m-0">
+                <a href="{{ url_for('attempt_quiz', quiz_id = quiz.id, question_num = 1 ) }}" class="btn btn-success">
+                    <i class="fas fa-redo"></i>
+                    Retake Quiz
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-primary float-end">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -10,12 +10,12 @@
     {% include 'navbar.html' %}
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3 mb-0">Users</h1>
+            <h1 class="h2 mb-0">Users</h1>
             <a href="{{ url_for('register') }}" class="btn btn-success">
                 <i class="fas fa-user-plus"></i> <span class="d-none d-md-inline">Add New User</span>
             </a>
         </div>
-        <div class="card">
+        <div class="card overflow-hidden">
             <div class="card-body p-0">
                 <div class="table-responsive-md">
                     <table class="table table-hover mb-0">

@@ -27,7 +27,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div class="title d-flex align-items-end">
-                                    <a href="/quiz/{{ quiz.id }}" class="text-decoration-none" style="color: #212529;">
+                                    <a href="{{ url_for('show_quiz', quiz_id = quiz.id )}}" class="text-decoration-none" style="color: #212529;">
                                         <h5 class="card-title">
                                             Quiz{{quiz.id}} ({{ quiz.chapter.name }})
                                         </h5>
@@ -35,11 +35,11 @@
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <div class="btn-group">
-                                        <a href="/quiz/{{ quiz.id }}/edit" 
+                                        <a href="{{ url_for('edit_quiz', quiz_id = quiz.id) }}" 
                                            class="btn btn-sm btn-outline-primary actionbtn">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="/quiz/{{ quiz.id }}/delete" 
+                                        <a href="{{ url_for('delete_quiz', quiz_id = quiz.id) }}" 
                                            class="btn btn-sm btn-outline-danger actionbtn">
                                             <i class="fas fa-trash"></i>
                                         </a>
@@ -71,11 +71,11 @@
                                                     <td>{{ question.question_title }}</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <a href="/quiz/{{ quiz.id }}/question/{{ question.id }}/edit" 
+                                                            <a href="{{ url_for('edit_question', quiz_id = quiz.id, question_id = question.id) }}" 
                                                                class="btn btn-sm btn-outline-primary actionbtn">
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
-                                                            <a href="/quiz/{{ quiz.id }}/question/{{ question.id }}/delete" 
+                                                            <a href="{{ url_for('delete_question', quiz_id = quiz.id, question_id = question.id) }}" 
                                                                class="btn btn-sm btn-outline-danger actionbtn">
                                                                 <i class="fas fa-trash"></i>
                                                             </a>
@@ -88,7 +88,7 @@
                                 </table>
                             </div>
                             <div class="d-flex justify-content-end mt-3">
-                                <a href="/quiz/{{ quiz.id }}/question/add" class="btn btn-success align-item-end">
+                                <a href="{{ url_for('add_question', quiz_id = quiz.id) }}" class="btn btn-success align-item-end">
                                     <i class="fa fa-plus"></i> 
                                     Question
                                 </a>
@@ -100,7 +100,7 @@
         </div>
     </div>
     <div>
-        <a href="/quiz/add" class="btn button">
+        <a href="{{ url_for('add_quiz') }}" class="btn button">
             <i class="fa fa-plus"></i>
             Quiz
         </a>

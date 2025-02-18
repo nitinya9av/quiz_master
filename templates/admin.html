@@ -32,11 +32,11 @@
                                     </h5>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="/subject/{{ subject.id }}/edit" 
+                                    <a href="{{ url_for('edit_subject', subject_id = subject.id) }}" 
                                        class="btn btn-sm btn-outline-primary actionbtn">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="/subject/{{ subject.id }}/delete" 
+                                    <a href="{{url_for('delete_subject', subject_id = subject.id)}}" 
                                        class="btn btn-sm btn-outline-danger actionbtn">
                                         <i class="fas fa-trash"></i>
                                     </a>
@@ -67,11 +67,11 @@
                                                     <td>{{ chapter.questions|length }}</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <a href="/subject/{{ subject.id }}/chapter/{{ chapter.id }}/edit" 
+                                                            <a href="{{url_for('edit_chapter', subject_id = subject.id, chapter_id = chapter.id)}}" 
                                                                class="btn btn-sm btn-outline-primary actionbtn">
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
-                                                            <a href="/subject/{{ subject.id }}/chapter/{{ chapter.id }}/delete" 
+                                                            <a href="{{url_for('delete_chapter', subject_id = subject.id, chapter_id = chapter.id)}}" 
                                                                class="btn btn-sm btn-outline-danger actionbtn">
                                                                 <i class="fas fa-trash"></i>
                                                             </a>
@@ -84,7 +84,7 @@
                                 </table>
                             </div>
                             <div class="d-flex justify-content-end mt-3">
-                                <a href="/subject/{{ subject.id }}/chapter/add" class="btn btn-success align-item-end">
+                                <a href="{{url_for('add_chapter', subject_id = subject.id)}}" class="btn btn-success align-item-end">
                                     <i class="fa fa-plus"></i> 
                                     Chapter
                                 </a>
@@ -96,7 +96,7 @@
         </div>
     </div>
     <div>
-        <a href="/subject/add" class="btn button">
+        <a href="{{ url_for('add_subject')}}" class="btn button">
             <i class="fa fa-plus"></i>
             Subject
         </a>

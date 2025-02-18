@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container container-fluid nav-container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <a class="navbar-brand" href="#">Quiz Master</a>
+        <a class="navbar-brand">Quiz Master</a>
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if user.is_admin %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('admin') }}">Home</a>
           </li>
@@ -18,14 +19,25 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Summary</a>
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('scores')}}">Scores</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Summary</a>
+          </li>
+          {% endif %}
         </ul>
-        <form class="d-flex" role="search">
+        <form class="d-flex me-5" role="search">
           <input class="form-control me-2 py-0" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-secondary btn-sm" type="submit">Search</button>
         </form>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link ms-5" href="{{ url_for('profile')}}">
+            <a class="nav-link" href="{{ url_for('profile')}}">
               {{ user.full_name }}
               <img src="https://api.dicebear.com/9.x/micah/svg?seed={{user.full_name}}&flip=true&scale=110" alt="{{user.full_name}}" class="rounded-circle" width="30">
             </a>

@@ -1,14 +1,67 @@
 {% extends 'layout.html' %}
 {% block title %}
-    Quiz Master
+    Home
 {% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <h1 class="text-center">Welcome to Quiz Master</h1>
-                <p class="text-center">User Dashboard</p>
+{% include 'navbar.html' %}
+<div class="container mt-4 col-md-10">
+    <div class="mb-4">
+        <h4 class="h1">Upcoming Quizzes</h4>
+    </div>
+    <div class="card mt-4 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Quiz ID</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Questions</th>
+                            <th scope="col">Scheduled Date</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in upcoming_quizes %}
+                        <tr>
+                            <td>{{ quiz.id }}</td>
+                            <td>{{ quiz.chapter.subject.name }} - {{ quiz.chapter.name }}</td>
+                            <td>{{ quiz.questions|length }}</td>
+                            <td>{{ quiz.date_of_quiz.strftime('%d %b %Y') }}</td>
+                            <td>{{ quiz.time_duration // 60 }} mins</td>
+                            <td>
+                                <div class="">
+                                    <a href="{{ url_for('show_quiz', quiz_id=quiz.id) }}"
+                                        class="btn btn-sm btn-outline-dark">
+                                        <i class="fas fa-eye"></i>
+                                        View Details
+                                    </a>
+                                    <a class="btn btn-sm btn-warning {% if quiz.date_of_quiz > current_date %}disabled{% endif %}"
+                                        href="{{ url_for('attempt_quiz', quiz_id=quiz.id, question_num=1 ) }}"
+                                            {% if quiz.date_of_quiz > current_date %}title="Available from {{ quiz.date_of_quiz.strftime('%d %b %Y') }}"{% endif %}>
+                                        Start Quiz
+                                        <i class="fas fa-play"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                <div class="text-muted">No upcoming quizzes found</div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
