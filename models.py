@@ -56,6 +56,7 @@ class Quiz(db.Model):
     remarks = db.Column(db.Text, nullable=True)
 
     questions = db.relationship('Question', backref='quizzes', lazy=True)
+    scores = db.relationship('Score', backref='quiz', lazy=True)
 
 
 class Score(db.Model):

@@ -161,6 +161,42 @@ def users():
     user = User.query.get(session['user_id'])
     return render_template('user/users.html', user=user, users=users)
 
+@app.route('/scores')
+@auth_required
+def scores():
+    user = User.query.get(session['user_id'])
+    
+    scores = Score.query.filter_by(user_id=user.id).order_by(
+        Score.time_stamp_of_attempt.desc()
+    ).all()
+    
+    quiz_summary = {}
+    for score in scores:
+        if score.quiz_id not in quiz_summary:
+            quiz_summary[score.quiz_id] = {
+                'best_score': score.total_scored,
+                'total_attempts': 1,
+                'latest_attempt': score.time_stamp_of_attempt,
+                'quiz': score.quiz
+            }
+        else:
+            quiz_summary[score.quiz_id]['total_attempts'] += 1
+            if score.total_scored > quiz_summary[score.quiz_id]['best_score']:
+                quiz_summary[score.quiz_id]['best_score'] = score.total_scored
+
+    total_quizzes = len(quiz_summary)
+    total_questions = sum(len(score.quiz.questions) for score in scores)
+    total_correct = sum(score.total_scored for score in scores)
+
+    return render_template('scores.html',
+        user=user,
+        quiz_summary=quiz_summary.values(),
+        total_quizzes=total_quizzes,
+        total_questions=total_questions,
+        total_correct=total_correct,
+        scores=scores
+    )
+
 
 @app.route('/subject/add', methods=['GET', 'POST'])
 @admin_required
@@ -490,3 +526,20 @@ def delete_question(quiz_id, question_id):
     db.session.commit()
     flash('Question deleted successfully')
     return redirect(url_for('quiz', quiz_id=quiz_id))
+
+
+@app.route('/quiz/summary/<int:quiz_id>')
+@auth_required
+def quiz_summary(quiz_id):
+    user = User.query.get(session['user_id'])
+    
+    attempts = Score.query.filter_by(
+        user_id=user.id,
+        quiz_id=quiz_id
+    ).order_by(Score.time_stamp_of_attempt.desc()).all()
+    
+    return render_template('quiz/summary.html',
+        user=user,
+        quiz=attempts[0].quiz if attempts else None,
+        attempts=attempts
+    )

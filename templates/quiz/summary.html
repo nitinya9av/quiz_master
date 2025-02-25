@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Quiz Attempts History
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+
+{% block body %}
+{% include 'navbar.html' %}
+<div class="container my-4 col-md-10">
+    <div class=" mb-4">
+        <h1 class="h1 mb-3">Quiz {{ quiz.id }} Attempt History</h1>
+        <a href="{{ url_for('scores') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            Back to Scores
+        </a>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Attempt Date</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Questions</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attempt in attempts %}
+                    <tr>
+                        <td>{{ attempt.time_stamp_of_attempt.strftime('%d %b %Y %H:%M') }}</td>
+                        <td>
+                            <div class="fw-500">{{ quiz.chapter.subject.name }}</div>
+                            <div class="text-muted small">{{ quiz.chapter.name }}</div>
+                        </td>
+                        <td>{{ quiz.questions|length }}</td>
+                        <td>{{ attempt.total_scored }}/{{ quiz.questions|length }}</td>
+                        <td>{{ ((attempt.total_scored / quiz.questions|length) * 100)|round(1) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

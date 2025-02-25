@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Quiz Results & Scores
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+
+{% block body %}
+{% include 'navbar.html' %}
+<div class="container my-4 col-md-10">
+    <div class=" mb-4">
+        <h1 class="h1 mb-5">Quiz Summary Report</h1>
+    </div>
+    <div class="mb-5">
+        <div class="row">
+            <div class="col-md-4 mb-4 h-100">
+                <div class="card bg-primary text-white h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Quizzes Attempted</h5>
+                        <h2 class="display-4">{{ total_quizzes }}</h2>
+                        <small class="opacity-75">Across all quizzes</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 h-100">
+                <div class="card bg-success text-white h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Overall Accuracy</h5>
+                        <h2 class="display-4">
+                            {% if total_questions > 0 %}
+                                {{ ((total_correct / total_questions) * 100)|round(1) }}%
+                            {% else %}
+                                0%
+                            {% endif %}
+                        </h2>
+                        <small class="opacity-75">{{ total_correct }} correct out of {{ total_questions }}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 h-100">
+                <div class="card bg-info text-white h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Questions Answered</h5>
+                        <h2 class="display-4">{{ total_questions }}</h2>
+                        <small class="opacity-75">Across all attempts</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Quiz Performance Breakdown</h5>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Subject</th>
+                            <th>Chapter</th>
+                            <th>Best Score</th>
+                            <th>Attempts</th>
+                            <th>Last Attempt</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for summary in quiz_summary %}
+                        <tr>
+                            <td>{{ summary.quiz.chapter.subject.name }}</td>
+                            <td>{{ summary.quiz.chapter.name }}</td>
+                            <td>
+                                {{ summary.best_score }}/{{ summary.quiz.questions|length }}
+                                ({{ ((summary.best_score / summary.quiz.questions|length) * 100)|round(1) }}%)
+                            </td>
+                            <td>{{ summary.total_attempts }}</td>
+                            <td>{{ summary.latest_attempt.strftime('%d %b %Y %H:%M') }}</td>
+                            <td>
+                                <a href="{{ url_for('quiz_summary', quiz_id=summary.quiz.id) }}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    View Attempts
+                                    <i class="fas fa-external-link-alt ms-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
