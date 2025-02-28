@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}
+Search Results
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+{% endblock %}
+{% block body %}
+{% include 'navbar.html' %}
+<div class="container mt-4">
+    <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+
+    <!-- Subjects Section -->
+    {% if results.subjects %}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Subjects ({{ results.subjects|length }})</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for subject in results.subjects %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ subject.name }}</h5>
+                            <p class="card-text text-muted small">
+                                Description: {{ subject.description if subject.description else 'No description available' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Quizzes ({{ results.quizzes|length }})</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for quiz in results.quizzes %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Quiz{{ quiz.id }} ({{ quiz.chapter.name }})</h5>
+                            <p class="card-text text-muted small">
+                                Questions: {{ quiz.questions |length }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if not results.users and not results.subjects and not results.quizzes and not results.questions %}
+    <div class="alert alert-info">No results found for "{{ query }}"</div>
+    {% endif %}
+</div>
+{% endblock %}

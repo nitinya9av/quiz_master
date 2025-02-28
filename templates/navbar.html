@@ -1,48 +1,74 @@
 <nav class="navbar navbar-expand-lg">
-    <div class="container container-fluid nav-container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <a class="navbar-brand">Quiz Master</a>
-        <span class="navbar-toggler-icon"></span>
+  <div class="container container-fluid nav-container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+              aria-expanded="false" aria-label="Toggle navigation">
+          <a class="navbar-brand" href="{{ url_for('admin' if user.is_admin else 'index') }}">Quiz Master</a>
+          <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          {% if user.is_admin %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('admin') }}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('quiz') }}">Quiz</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('users') }}">Users</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Summary</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('scores')}}">Scores</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Summary</a>
-          </li>
-          {% endif %}
-        </ul>
-        <form class="d-flex me-5" role="search">
-          <input class="form-control me-2 py-0" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-secondary btn-sm" type="submit">Search</button>
-        </form>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('profile')}}">
-              {{ user.full_name }}
-              <img src="https://api.dicebear.com/9.x/micah/svg?seed={{user.full_name}}&flip=true&scale=110" alt="{{user.full_name}}" class="rounded-circle" width="30">
-            </a>
-          </li>
-        </ul>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if user.is_admin %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('admin') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('quiz') }}">Quiz</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('users') }}">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Summary</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('scores')}}">Scores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Summary</a>
+            </li>
+            {% endif %}
+          </ul>
+          
+          <!-- Search Form -->
+          <form class="d-flex me-3" role="search" method="GET" 
+                action="{{ url_for('admin_search') if user.is_admin else url_for('user_search') }}">
+              <div class="input-group">
+                  <input class="form-control pe-0 secondary" type="search" 
+                         name="query"
+                         placeholder="Search {% if user.is_admin %}users, subjects, quizzes{% else %}subjects, quizzes{% endif %}" 
+                         aria-label="Search">
+                  <button class="btn btn-outline-secondary" type="submit">
+                    <i class="fas fa-magnifying-glass"></i>
+                  </button>
+              </div>
+          </form>
+
+          <!-- Profile Section -->
+          <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" 
+                     data-bs-toggle="dropdown" aria-expanded="false">
+                     {{ user.full_name }}
+                      <img src="https://api.dicebear.com/9.x/micah/svg?seed={{ user.full_name }}&flip=true&scale=110" 
+                           alt="{{ user.full_name }}" class="rounded-circle" width="30">
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="{{ url_for('profile') }}">
+                          <i class="bi bi-person-circle"></i> Profile
+                      </a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+                          <i class="bi bi-box-arrow-right"></i> Logout
+                      </a></li>
+                  </ul>
+              </li>
+          </ul>
       </div>
-    </div>
+  </div>
 </nav>

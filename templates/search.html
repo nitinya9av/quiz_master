@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+{% block title %}
+Search Results
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+{% endblock %}
+{% block body %}
+{% include 'navbar.html' %}
+<div class="container mt-4">
+    <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+    
+    {% if results.users %}
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Users ({{ results.users|length }})</h3>
+        </div>
+        <div class="card-body">
+            <div class="list-group">
+                {% for user in results.users %}
+                <a href="" 
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ user.username }}</strong>
+                        <div class="text-muted small">{{ user.email }}</div>
+                    </div>
+                    <span class="badge bg-secondary">{{ user.role }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Subjects Section -->
+    {% if results.subjects %}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Subjects ({{ results.subjects|length }})</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for subject in results.subjects %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ subject.name }}</h5>
+                            <a href="{{ url_for('edit_subject', subject_id=subject.id) }}" 
+                               class="btn btn-sm btn-outline-success">Edit Subject</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Chapters Section -->
+    {% if results.chapters %}
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Chapters ({{ results.chapters|length }})</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for chapter in results.chapters %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ chapter.name }}</h5>
+                            <p class="card-text text-muted small">
+                                Quizzes: {{ chapter.quizzes|length }}
+                            </p>
+                            <a href="{{ url_for('edit_chapter', subject_id=chapter.subject.id, chapter_id=chapter.id) }}" 
+                               class="btn btn-sm btn-outline-success">Edit Chapters</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Quizzes ({{ results.quizzes|length }})</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% for quiz in results.quizzes %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Quiz{{ quiz.id }} ({{ quiz.chapter.name }})</h5>
+                            <p class="card-text text-muted small">
+                                Questions: {{ quiz.questions |length }}
+                            </p>
+                            <a href="{{ url_for('edit_quiz', chapter_id=quiz.chapter.id, quiz_id=quiz.id) }}" 
+                               class="btn btn-sm btn-outline-success">Edit Chapters</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Questions Section -->
+    {% if results.questions %}
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark">
+            <h3 class="mb-0">Questions ({{ results.questions|length }})</h3>
+        </div>
+        <div class="card-body">
+            {% for question in results.questions %}
+            <div class="mb-3 p-3 border rounded">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="w-75">
+                        <h6 class="mb-1">{{ question.content }}</h6>
+                        <div class="text-muted small">
+                            Type: {{ question.question_type|title }} | 
+                            Quiz: {{ question.quizzes.id }}
+                        </div>
+                    </div>
+                    <a href="{{ url_for('edit_question', quiz_id=question.quizzes.id, question_id=question.id) }}" 
+                       class="btn btn-sm btn-outline-warning">Edit Question</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if not results.users and not results.subjects and not results.quizzes and not results.questions %}
+    <div class="alert alert-info">No results found for "{{ query }}"</div>
+    {% endif %}
+</div>
+{% endblock %}

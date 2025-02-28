@@ -161,6 +161,80 @@ def users():
     user = User.query.get(session['user_id'])
     return render_template('user/users.html', user=user, users=users)
 
+
+@app.route('/admin/search')
+@admin_required
+def admin_search():
+    user = User.query.get(session['user_id'])
+    query = request.args.get('query', '')
+    
+    if query:
+        chapters = Chapter.query.filter(
+            (Chapter.name.ilike(f'%{query}%')) |
+            (Chapter.description.ilike(f'%{query}%'))
+        ).all()
+        
+        chapter_quizzes = []
+        for chapter in chapters:
+            chapter_quizzes.extend(chapter.quizzes)
+        
+        results = {
+            'users': User.query.filter(
+                (User.username.ilike(f'%{query}%')) | 
+                (User.full_name.ilike(f'%{query}%'))
+            ).limit(20).all(),
+            'subjects': Subject.query.filter(
+                (Subject.name.ilike(f'%{query}%')) |
+                (Subject.description.ilike(f'%{query}%'))
+            ).all(),
+            'chapters': chapters,
+            'quizzes': chapter_quizzes,
+            'questions': Question.query.filter(
+                (Question.question_statement.ilike(f'%{query}%')) |
+                (Question.question_title.ilike(f'%{query}%'))
+            ).all()
+        }
+    else:
+        results = {
+            'users': [],
+            'subjects': [],
+            'chapters': [],
+            'quizzes': [],
+            'questions': []
+        }
+    
+    return render_template('search.html', user=user, results=results, query=query)
+
+
+
+@app.route('/search')
+def user_search():
+    user = User.query.get(session['user_id'])
+    query = request.args.get('query', '')
+    
+    if query:
+        subjects = Subject.query.filter(
+            (Subject.name.ilike(f'%{query}%')) |
+            (Subject.description.ilike(f'%{query}%'))
+        ).all()
+
+        subject_quizzes = []
+        for subject in subjects:
+            for chapter in subject.chapters: subject_quizzes.extend(chapter.quizzes)
+
+        results = {
+            'subjects': subjects,
+            'quizzes': subject_quizzes,
+        }
+    else:
+        results = {
+            'subjects': [],
+            'quizzes': [],
+        }
+    
+    return render_template('user/search.html', user=user, results=results, query=query)
+
+
 @app.route('/scores')
 @auth_required
 def scores():
