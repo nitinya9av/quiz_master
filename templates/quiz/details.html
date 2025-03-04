@@ -29,7 +29,17 @@ Quiz Details - {{ quiz.id }}
                         <dd class="col-sm-7">{{ quiz.date_of_quiz.strftime('%B %d, %Y') }}</dd>
 
                         <dt class="col-sm-5">Duration:</dt>
-                        <dd class="col-sm-7">{{ quiz.time_duration // 60 }} minutes</dd>
+                        <dd class="col-sm-7">
+                            {% set hours = quiz.time_duration // 60 %}
+                            {% set minutes = quiz.time_duration % 60 %}
+                            {% if hours > 0 %}
+                            {{ hours }} hour{% if hours > 1 %}s{% endif %}
+                            {% if minutes > 0 %} and {% endif %}
+                            {% endif %}
+                            {% if minutes > 0 %}
+                            {{ minutes }} minute{% if minutes > 1 %}s{% endif %}
+                            {% endif %}
+                        </dd>
 
                         <dt class="col-sm-5">Description:</dt>
                         <dd class="col-sm-7">{{ quiz.remarks }}</dd>
@@ -47,12 +57,12 @@ Quiz Details - {{ quiz.id }}
                                 <p class="mb-1">{{ question.question_statement }}</p>
                             </div>
                             <div class="btn-group">
-                                <a href="{{ url_for('edit_question', quiz_id = quiz.id, question_id = question.id) }}" 
-                                   class="btn btn-sm btn-outline-primary">
+                                <a href="{{ url_for('edit_question', quiz_id = quiz.id, question_id = question.id) }}"
+                                    class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="{{ url_for('delete_question', quiz_id = quiz.id, question_id = question.id) }}" 
-                                   class="btn btn-sm btn-outline-danger">
+                                <a href="{{ url_for('delete_question', quiz_id = quiz.id, question_id = question.id) }}"
+                                    class="btn btn-sm btn-outline-danger">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
@@ -94,10 +104,20 @@ Quiz Details - {{ quiz.id }}
                         <dd class="col-sm-7">{{ quiz.date_of_quiz.strftime('%B %d, %Y') }}</dd>
 
                         <dt class="col-sm-5">Duration:</dt>
-                        <dd class="col-sm-7">{{ quiz.time_duration // 60 }} minutes</dd>
+                        <dd class="col-sm-7">
+                            {% set hours = quiz.time_duration // 60 %}
+                            {% set minutes = quiz.time_duration % 60 %}
+                            {% if hours > 0 %}
+                            {{ hours }} hour{% if hours > 1 %}s{% endif %}
+                            {% if minutes > 0 %} and {% endif %}
+                            {% endif %}
+                            {% if minutes > 0 %}
+                            {{ minutes }} minute{% if minutes > 1 %}s{% endif %}
+                            {% endif %}
+                        </dd>
 
                         <dt class="col-sm-5">Description:</dt>
-                        {% if quiz.remarks %}  
+                        {% if quiz.remarks %}
                         <dd class="col-sm-7">{{ quiz.remarks }}</dd>
                         {% else %}
                         <dd class="col-sm-7">No description available</dd>

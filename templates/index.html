@@ -34,7 +34,7 @@
                             <td>{{ quiz.chapter.subject.name }} - {{ quiz.chapter.name }}</td>
                             <td>{{ quiz.questions|length }}</td>
                             <td>{{ quiz.date_of_quiz.strftime('%d %b %Y') }}</td>
-                            <td>{{ quiz.time_duration // 60 }} mins</td>
+                            <td>{{ "%d:%02d" % (quiz.time_duration // 60, quiz.time_duration % 60) }}</td>
                             <td>
                                 <div class="">
                                     <a href="{{ url_for('show_quiz', quiz_id=quiz.id) }}"

@@ -381,13 +381,15 @@ def add_quiz():
     if request.method == 'POST':
         chapter_id = request.form.get('chapter_id')
         date = datetime.strptime(request.form['date'], '%Y-%m-%d')
-        duration = int(request.form['duration']) * 60
+        hours = int(request.form['hours'])
+        minutes = int(request.form['minutes'])
+        total_duration = hours * 60 + minutes
         description = request.form.get('description')
-        if not chapter_id or not date or not duration:
+        if not chapter_id or not date or not total_duration:
             flash('Please fill required fields')
             return redirect(url_for('add_quiz'))
         
-        quiz = Quiz(chapter_id=chapter_id, date_of_quiz=date, time_duration=duration, remarks=description)
+        quiz = Quiz(chapter_id=chapter_id, date_of_quiz=date, time_duration=total_duration, remarks=description)
         db.session.add(quiz)
         db.session.commit()
         flash('Quiz added successfully')
@@ -505,15 +507,17 @@ def edit_quiz( quiz_id ):
     if request.method == 'POST':
         chapter_id = request.form.get('chapter_id')
         date = datetime.strptime(request.form['date'], '%Y-%m-%d')
-        duration = int(request.form['duration']) * 60
+        hours = int(request.form['hours'])
+        minutes = int(request.form['minutes'])
+        total_duration = hours * 60 + minutes
         remarks = request.form.get('description')
-        if not chapter_id or not date or not duration:
+        if not chapter_id or not date or not total_duration:
             flash('Please fill required fields')
             return redirect(url_for('quiz/edit.html', quiz_id=quiz_id))
         quiz = Quiz.query.get(quiz_id)
         quiz.chapter_id = chapter_id
         quiz.date_of_quiz = date
-        quiz.time_duration = duration
+        quiz.time_duration = total_duration
         quiz.remarks = remarks
         db.session.commit()
         flash('Quiz updated successfully')

@@ -80,20 +80,22 @@
 
 {% block script %}
 <script>
-const quizDuration = {{ quiz.time_duration }};
+const quizDuration = {{ quiz.time_duration }};  // Duration in minutes
 const startTime = {{ session.quiz_data.start_time }} * 1000; // Convert to ms
-const endTime = startTime + (quizDuration * 1000);
+const endTime = startTime + (quizDuration * 60 * 1000); // Convert minutes to ms
 
 function updateTimerDisplay() {
     const now = Date.now();
     const remaining = Math.max(0, endTime - now);
     
-    // Convert to minutes and seconds
-    const minutes = Math.floor(remaining / 60000);
-    const seconds = Math.floor((remaining % 60000) / 1000);
+    // Convert to hours, minutes, seconds
+    const totalSeconds = Math.floor(remaining / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
     
     // Pad with leading zeros
-    const display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    const display = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     document.getElementById('timer').textContent = display;
     
     // Auto-submit when time expires
@@ -116,5 +118,3 @@ document.addEventListener('visibilitychange', () => {
 updateTimerDisplay();
 </script>
 {% endblock %}
-
-

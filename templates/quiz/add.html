@@ -32,10 +32,25 @@ Add Quiz
                     <div class="mb-3">
                         <label for="duration">Quiz Duration</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" id="duration" name="duration" min="1" required placeholder="Enter duration in minutes">
-                            <span class="input-group-text">minutes</span>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="hours" 
+                                   name="hours" 
+                                   min="0" 
+                                   placeholder="Hours"
+                                   required>
+                            <span class="input-group-text">hours</span>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="minutes" 
+                                   name="minutes" 
+                                   min="0" 
+                                   max="59"
+                                   placeholder="Minutes"
+                                   required>
+                            <span class="input-group-text">mins</span>
                         </div>
-                        <small class="form-text text-muted">Example: 30 for 30 minutes</small>
+                        <small class="form-text text-muted">Example: 1 hour 30 minutes</small>
                     </div>
                     <div class="mb-3">
                         <label for="description">Description</label>

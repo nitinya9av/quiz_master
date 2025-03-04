@@ -2,3 +2,7 @@ body{
     flex-direction: column;
     align-items: center;
 }
+
+#timer {
+    width: 100px;
+}
