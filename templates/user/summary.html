@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}User Summary{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+{% endblock %}
+
+{% block body %}
+{% include 'navbar.html' %}
+<div class="container mt-5">    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h2>Average Scores by Subject</h2>
+            <img src="{{ url_for('static', filename=bar_chart) }}" alt="Bar Chart" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h2>Total Attempts by Subject</h2>
+            <img src="{{ url_for('static', filename=pie_chart) }}" alt="Pie Chart" class="img-fluid">
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -20,7 +20,7 @@
               <a class="nav-link" href="{{ url_for('users') }}">Users</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Summary</a>
+              <a class="nav-link" href="{{ url_for('admin_summary') }}">Summary</a>
             </li>
             {% else %}
             <li class="nav-item">
@@ -30,7 +30,7 @@
               <a class="nav-link" href="{{ url_for('scores')}}">Scores</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Summary</a>
+              <a class="nav-link" href="{{ url_for('user_summary') }}">Summary</a>
             </li>
             {% endif %}
           </ul>

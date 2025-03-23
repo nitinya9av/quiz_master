@@ -4,6 +4,10 @@ from models import db, User, Subject, Chapter, Quiz, Question, Score
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import time
+import os
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
 from functools import wraps
 
 
@@ -270,6 +274,112 @@ def scores():
         total_correct=total_correct,
         scores=scores
     )
+
+
+@app.route('/admin/summary')
+@admin_required
+def admin_summary():
+    user = User.query.get(session['user_id'])
+    # Fetch subjects and their related data
+    subjects = Subject.query.all()
+    
+    # Prepare data for charts
+    subject_names = []
+    best_scores = []
+    total_attempts = []
+
+    for subject in subjects:
+        subject_names.append(subject.name)
+        
+        # Calculate best score for each subject
+        quizzes = [quiz.id for chapter in subject.chapters for quiz in chapter.quizzes]
+        scores = Score.query.filter(Score.quiz_id.in_(quizzes)).all()
+        if scores:
+            best_scores.append(max(score.total_scored for score in scores))
+        else:
+            best_scores.append(0)
+
+        # Calculate total attempts for each subject
+        total_attempts.append(len(scores))
+
+    # Create bar chart for best scores
+    plt.figure(figsize=(8, 6))
+    plt.bar(subject_names, best_scores, color='skyblue')
+    plt.title('Best Scores Achieved Subject-wise', fontsize=14)
+    plt.xlabel('Subjects', fontsize=12)
+    plt.ylabel('No. of times Best Score Achieved', fontsize=12)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    
+    # Save bar chart to static/images directory
+    output_dir = os.path.join(app.root_path, 'static', 'images')
+    os.makedirs(output_dir, exist_ok=True)
+    bar_chart_path = os.path.join(output_dir, 'best_scores_bar_chart.png')
+    plt.savefig(bar_chart_path)
+    plt.close()
+
+    # Create pie chart for total attempts
+    plt.figure(figsize=(8, 6))
+    plt.pie(total_attempts, labels=subject_names, autopct='%1.1f%%', startangle=140,
+            colors=['gold', 'lightcoral', 'lightskyblue', 'lightgreen', 'violet'])
+    plt.title('Total Quiz Attempts Subject-wise', fontsize=14)
+
+    # Save pie chart to static/images directory
+    pie_chart_path = os.path.join(output_dir, 'quiz_attempts_pie_chart.png')
+    plt.savefig(pie_chart_path)
+    plt.close()
+
+    return render_template('summary.html', user=user)
+
+
+@app.route('/summary')
+@auth_required
+def user_summary():
+    user = User.query.get(session['user_id'])
+    scores = Score.query.filter_by(user_id=user.id).all()
+    
+    # Prepare data for charts
+    subjects = {}
+    for score in scores:
+        subject = score.quiz.chapter.subject.name
+        if subject not in subjects:
+            subjects[subject] = {'total_score': 0, 'attempts': 0}
+        subjects[subject]['total_score'] += score.total_scored
+        subjects[subject]['attempts'] += 1
+
+    # Create bar chart for average scores
+    subject_names = list(subjects.keys())
+    average_scores = [subjects[subject]['total_score'] / subjects[subject]['attempts'] for subject in subject_names]
+
+    plt.figure(figsize=(8, 6))
+    plt.bar(subject_names, average_scores, color='skyblue')
+    plt.title('Average Scores by Subject', fontsize=14)
+    plt.xlabel('Subjects', fontsize=12)
+    plt.ylabel('Average Score', fontsize=12)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    
+    # Save bar chart to static/images directory
+    output_dir = os.path.join(app.root_path, 'static', 'images')
+    os.makedirs(output_dir, exist_ok=True)
+    bar_chart_path = os.path.join(output_dir, f'user_{user.id}_average_scores_bar_chart.png')
+    plt.savefig(bar_chart_path)
+    plt.close()
+
+    # Create pie chart for total attempts
+    total_attempts = [subjects[subject]['attempts'] for subject in subject_names]
+    plt.figure(figsize=(8, 6))
+    plt.pie(total_attempts, labels=subject_names, autopct='%1.1f%%', startangle=140,
+            colors=['gold', 'lightcoral', 'lightskyblue', 'lightgreen', 'violet'])
+    plt.title('Total Attempts by Subject', fontsize=14)
+
+    # Save pie chart to static/images directory
+    pie_chart_path = os.path.join(output_dir, f'user_{user.id}_total_attempts_pie_chart.png')
+    plt.savefig(pie_chart_path)
+    plt.close()
+
+    return render_template('user/summary.html', 
+                           user=user, 
+                           bar_chart=f'images/user_{user.id}_average_scores_bar_chart.png',
+                           pie_chart=f'images/user_{user.id}_total_attempts_pie_chart.png')
 
 
 @app.route('/subject/add', methods=['GET', 'POST'])
