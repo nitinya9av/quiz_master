@@ -103,7 +103,7 @@ quiz_master/
 ├── .gitignore              # Git ignore file
 ├── .env                    # Environment variables
 ├── app.py                  # Main application entry point
-|── api.py                  # API routes
+│── api.py                  # API routes
 ├── routes.py               # Application routes
 ├── models.py               # Database models
 ├── README.md               # Project documentation
