@@ -3,9 +3,6 @@
     Quiz Master
 {% endblock %}
 
-{% block style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin.css') }}">
-{% endblock %}
 
 {% block body %}
     {% include 'navbar.html' %}
@@ -13,8 +10,8 @@
         <div class="row">
             {% if quizes|length == 0 %}
                 <div class="col-md-6 offset-md-3">
-                    <div class="card dashed-border text-center">
-                        <div class="card-body">
+                    <div class="card border rounded p-5 mt-5 text-center">
+                        <div class="card-body rounded" style="border: 1px dashed #1f1f1f">
                             <h5 class="card-title">No Quiz Found</h5>
                             <p class="card-text">Please add a new quiz to get started</p>
                         </div>
@@ -100,7 +97,7 @@
         </div>
     </div>
     <div>
-        <a href="{{ url_for('add_quiz') }}" class="btn button">
+        <a href="{{ url_for('add_quiz') }}" class="btn m-5 custom-button">
             <i class="fa fa-plus"></i>
             Quiz
         </a>

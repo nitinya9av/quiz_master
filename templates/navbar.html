@@ -1,9 +1,11 @@
-<nav class="navbar navbar-expand-lg">
-  <div class="container container-fluid nav-container">
+<nav class="navbar navbar-expand-lg w-100 justify-content-between bg-white border-bottom border-dark">
+  <div class="container-fluid">
+      <a class="navbar-brand d-block d-lg-none" href="{{ url_for('index') }}">
+        Quiz Master
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
               aria-expanded="false" aria-label="Toggle navigation">
-          <a class="navbar-brand" href="{{ url_for('admin' if user.is_admin else 'index') }}">Quiz Master</a>
           <span class="navbar-toggler-icon"></span>
       </button>
 

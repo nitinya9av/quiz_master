@@ -4,13 +4,11 @@
 Edit Question
 {% endblock %}
 
-{% block style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/newSubChap.css') }}">
-{% endblock %}
 
 {% block body %}
+    {% include 'navbar.html' %}
     <h1 class="h1 text-center mt-5">Edit Question{{question.id}} Details</h1>
-    <div class="container shadow col-10 col-md-6 p-4 m-5">
+    <div class="container shadow col-10 col-md-6 p-4 m-5 bg-white rounded">
         <div class="row">
             <form method="post">
                 <div class="form-group">

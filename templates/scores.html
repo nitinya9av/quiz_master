@@ -55,39 +55,42 @@
                 <h5 class="mb-0">Quiz Performance Breakdown</h5>
             </div>
             <div class="card-body p-0">
-                <table class="table table-hover mb-0">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Subject</th>
-                            <th>Chapter</th>
-                            <th>Best Score</th>
-                            <th>Attempts</th>
-                            <th>Last Attempt</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for summary in quiz_summary %}
-                        <tr>
-                            <td>{{ summary.quiz.chapter.subject.name }}</td>
-                            <td>{{ summary.quiz.chapter.name }}</td>
-                            <td>
-                                {{ summary.best_score }}/{{ summary.quiz.questions|length }}
-                                ({{ ((summary.best_score / summary.quiz.questions|length) * 100)|round(1) }}%)
-                            </td>
-                            <td>{{ summary.total_attempts }}</td>
-                            <td>{{ summary.latest_attempt.strftime('%d %b %Y %H:%M') }}</td>
-                            <td>
-                                <a href="{{ url_for('quiz_summary', quiz_id=summary.quiz.id) }}" 
-                                   class="btn btn-sm btn-outline-primary">
-                                    View Attempts
-                                    <i class="fas fa-external-link-alt ms-2"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <!-- Add table-responsive class here -->
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Subject</th>
+                                <th>Chapter</th>
+                                <th>Best Score</th>
+                                <th>Attempts</th>
+                                <th>Last Attempt</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for summary in quiz_summary %}
+                            <tr>
+                                <td>{{ summary.quiz.chapter.subject.name }}</td>
+                                <td>{{ summary.quiz.chapter.name }}</td>
+                                <td>
+                                    {{ summary.best_score }}/{{ summary.quiz.questions|length }}
+                                    ({{ ((summary.best_score / summary.quiz.questions|length) * 100)|round(1) }}%)
+                                </td>
+                                <td>{{ summary.total_attempts }}</td>
+                                <td>{{ summary.latest_attempt.strftime('%d %b %Y %H:%M') }}</td>
+                                <td>
+                                    <a href="{{ url_for('quiz_summary', quiz_id=summary.quiz.id) }}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        View Attempts
+                                        <i class="fas fa-external-link-alt ms-2"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

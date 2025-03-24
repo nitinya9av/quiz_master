@@ -4,29 +4,20 @@ body {
     font-family: 'Tomorrow', sans-serif;
     display: flex;
     background-color: #fff6e9;
+    flex-direction: column;
+    align-items: center;
 }
 
-h1{
-    color: #161514;
-}
+.custom-button{
+    font-family: 'Tomorrow', sans-serif;
+    cursor: pointer;
+    color: #1f1f1f;
+    background-color: #fec43f;
+    border: 1.5px solid black;
 
-.alert-overlay {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1050;
-    width: 90%;
-    max-width: 500px;
-}
-
-.navbar{
-    width: 100%;
-    justify-content: space-between;
-    background-color: #fff;
-    border-bottom: 1px solid #000;
-}
-
-.nav-container{
-    max-width: 98%;
+    &:hover {
+        color: #1f1f1f;
+        background-color: #f7b500;
+        border: 1.5px solid black;
+    }
 }

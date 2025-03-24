@@ -3,9 +3,6 @@
     Home
 {% endblock %}
 
-{% block style %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
-{% endblock %}
 
 {% block body %}
 {% include 'navbar.html' %}
@@ -36,7 +33,7 @@
                             <td>{{ quiz.date_of_quiz.strftime('%d %b %Y') }}</td>
                             <td>{{ "%d:%02d" % (quiz.time_duration // 60, quiz.time_duration % 60) }}</td>
                             <td>
-                                <div class="">
+                                <div class="d-flex gap-2">
                                     <a href="{{ url_for('show_quiz', quiz_id=quiz.id) }}"
                                         class="btn btn-sm btn-outline-dark">
                                         <i class="fas fa-eye"></i>
@@ -44,7 +41,7 @@
                                     </a>
                                     <a class="btn btn-sm btn-warning {% if quiz.date_of_quiz > current_date %}disabled{% endif %}"
                                         href="{{ url_for('attempt_quiz', quiz_id=quiz.id, question_num=1 ) }}"
-                                            {% if quiz.date_of_quiz > current_date %}title="Available from {{ quiz.date_of_quiz.strftime('%d %b %Y') }}"{% endif %}>
+                                        {% if quiz.date_of_quiz > current_date %}title="Available from {{ quiz.date_of_quiz.strftime('%d %b %Y') }}"{% endif %}>
                                         Start Quiz
                                         <i class="fas fa-play"></i>
                                     </a>
