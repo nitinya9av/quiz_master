@@ -519,57 +519,42 @@ def show_quiz( quiz_id ):
     return render_template('quiz/details.html', quiz=Quiz.query.get(quiz_id), user=User.query.get(session['user_id']))
 
 
-@app.route('/quiz/<int:quiz_id>/attempt/question/<int:question_num>', methods=['GET', 'POST'])
+@app.route('/quiz/<int:quiz_id>/attempt', methods=['GET', 'POST'])
 @auth_required
-def attempt_quiz(quiz_id, question_num):
+def attempt_quiz(quiz_id):
     user = User.query.get(session['user_id'])
     quiz = Quiz.query.get(quiz_id)
-    total_questions = len(quiz.questions)
 
     if quiz.date_of_quiz > datetime.now().date():
         flash('This quiz is not available yet')
         return redirect(url_for('index'))
 
-    # Initialize session only on first question access
-    if question_num == 1 and 'quiz_data' not in session:
+    if 'quiz_data' not in session:
         session['quiz_data'] = {
             'start_time': time.time(),
             'answers': {},
-            'duration': quiz.time_duration  # Store duration from DB
+            'duration': quiz.time_duration
         }
         session.modified = True
-    elif 'quiz_data' not in session:
-        flash('Invalid quiz access')
-        return redirect(url_for('index'))
-
 
     if request.method == 'POST':
-        current_question_id = quiz.questions[question_num-1].id
-        session['quiz_data']['answers'][str(current_question_id)] = request.form.get('answer')
+        for key, value in request.form.items():
+            if key.startswith('answer_'):
+                question_id = key.split('_')[1]
+                session['quiz_data']['answers'][question_id] = value
         session.modified = True
         
-        # Check time limit on each submission
         time_elapsed = time.time() - session['quiz_data']['start_time']
-        if time_elapsed > quiz.time_duration:
+        if time_elapsed > quiz.time_duration * 60:  # Convert minutes to seconds
             return redirect(url_for('submit_quiz', quiz_id=quiz_id))
-        
 
-        direction = request.form.get('direction')
-        if direction == 'prev' and question_num > 1:
-            return redirect(url_for('attempt_quiz', quiz_id=quiz_id, question_num=question_num-1))
-        elif direction == 'next' and question_num < total_questions:
-            return redirect(url_for('attempt_quiz', quiz_id=quiz_id, question_num=question_num+1))
-        elif direction == 'submit':
+        if 'submit_button' in request.form:
             return redirect(url_for('submit_quiz', quiz_id=quiz_id))
-    
-    current_question = quiz.questions[question_num-1]
+
     return render_template('quiz/attempt.html',
-                         user=user,
-                         quiz=quiz,
-                         question=current_question,
-                         question_num=question_num,
-                         total_questions=total_questions,
-                         start_time=session['quiz_data']['start_time'])
+                           user=user,
+                           quiz=quiz,
+                           start_time=session['quiz_data']['start_time'])
 
 
 @app.route('/submit-quiz/<int:quiz_id>')
