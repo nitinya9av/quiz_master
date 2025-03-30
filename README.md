@@ -41,8 +41,8 @@ Quiz Master is a web-based application designed to manage quizzes, track user pe
     ```
 2. Create a virtual environment and activate it:
     ```bash
-    python -m venv venv
-    ven\Scripts\activate
+    python -m venv .venv
+    .venv\Scripts\activate
      ```
 3. Install the required dependencies:
     ```bash
@@ -50,7 +50,7 @@ Quiz Master is a web-based application designed to manage quizzes, track user pe
     ```
 4. Run the application:
     ```bash
-    python app.py
+    flask run
     ```
 5. Open your browser and navigate to:
     ```bash
