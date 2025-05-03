@@ -36,8 +36,8 @@ Quiz Master is a web-based application designed to manage quizzes, track user pe
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/23f3004131/quiz_master_23f3004131.git
-   cd quiz_master_23f3004131
+   git clone https://github.com/nitinya9av/quiz_master.git
+   cd quiz_master
     ```
 2. Create a virtual environment and activate it:
     ```bash
