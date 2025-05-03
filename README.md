@@ -34,25 +34,27 @@ Quiz Master is a web-based application designed to manage quizzes, track user pe
 
 ## Installation
 
-1. Clone the repository:
+1. Fork the repository on GitHub by clicking the "Fork" button at the top right of the repository page.
+
+2. Clone your forked repository:
    ```bash
-   git clone https://github.com/nitinya9av/quiz_master.git
+   git clone https://github.com/YOUR-USERNAME/quiz_master.git
    cd quiz_master
     ```
-2. Create a virtual environment and activate it:
+3. Create a virtual environment and activate it:
     ```bash
     python -m venv .venv
     .venv\Scripts\activate
      ```
-3. Install the required dependencies:
+4. Install the required dependencies:
     ```bash
     pip install -r requirements.txt
     ```
-4. Run the application:
+5. Run the application:
     ```bash
     flask run
     ```
-5. Open your browser and navigate to:
+6. Open your browser and navigate to:
     ```bash
     http://127.0.0.1:5000/
     ```
@@ -69,26 +71,26 @@ quiz_master/
 │
 ├── templates/              # HTML templates
 │   ├── chapter/            # Chapter-specific templates
-│       ├── add.html        # Add chapter
-│       ├── edit.html       # Edit chapter
+│   │    ├── add.html        # Add chapter
+│   │    ├── edit.html       # Edit chapter
 │   ├── question/           # Question-specific templates
-│       ├── add.html        # Add question
-│       ├── edit.html       # Edit question
+│   │    ├── add.html        # Add question
+│   │    ├── edit.html       # Edit question
 │   ├── quiz/               # Quiz-specific templates
-│       ├── add.html        # Add quiz
-│       ├── edit.html       # Edit quiz
-│       ├── attempt.html    # Attempt quiz
-│       ├── detail.html     # Quiz details
-│       ├── home.html       # Quiz home
-│       ├── result.html     # Quiz result
-│       ├── summary.html    # Quiz summary
+│   │    ├── add.html        # Add quiz
+│   │    ├── edit.html       # Edit quiz
+│   │    ├── attempt.html    # Attempt quiz
+│   │    ├── detail.html     # Quiz details
+│   │    ├── home.html       # Quiz home
+│   │    ├── result.html     # Quiz result
+│   │    ├── summary.html    # Quiz summary
 │   ├── subject/            # Subject-specific templates
-│       ├── add.html        # Add subject
-│       ├── edit.html       # Edit subject
+│   │    ├── add.html        # Add subject
+│   │    ├── edit.html       # Edit subject
 │   ├── user/               # User-specific templates
-│       ├── search.html     # Search results
-│       ├── summary.html    # Summary reports
-│       ├── users.html      # User management
+│   │    ├── search.html     # Search results
+│   │    ├── summary.html    # Summary reports
+│   │    ├── users.html      # User management
 │   ├── admin.html          # Admin dashboard
 │   ├── index.html          # Home page
 │   ├── layout.html         # Base layout
